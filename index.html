@@ -1,47 +1,95 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
-
-export default function SanValentin() {
-  const [showDecorations, setShowDecorations] = useState(false);
-  const [moving, setMoving] = useState(false);
-
-  const handleYesClick = () => {
-    setShowDecorations(true);
-  };
-
-  const handleNoHover = () => {
-    setMoving(true);
-    setTimeout(() => setMoving(false), 1000); 
-  };
-
-  return (
-    <div className="flex flex-col items-center justify-center h-screen bg-pink-200">
-      <h1 className="text-4xl font-bold text-red-600">¿Quieres ser mi San Valentín?</h1>
-      <div className="flex space-x-4 mt-4">
-        <button
-          onClick={handleYesClick}
-          className="bg-red-500 text-white px-6 py-3 rounded-2xl shadow-lg hover:bg-red-700 transition"
-        >
-          Sí
-        </button>
-        <motion.button
-          className="bg-gray-500 text-white px-6 py-3 rounded-2xl shadow-lg"
-          whileHover={{ x: moving ? Math.random() * 200 - 100 : 0, y: moving ? Math.random() * 200 - 100 : 0 }}
-          onMouseEnter={handleNoHover}
-        >
-          No
-        </motion.button>
-      </div>
-      {showDecorations && (
-        <div className="mt-6 text-center">
-          <p className="text-2xl text-red-600 font-bold">¡Yay! 💖🎉</p>
-          <div className="grid grid-cols-3 gap-4 mt-4">
-            <span className="text-6xl">🐱</span>
-            <span className="text-6xl">🌸</span>
-            <span className="text-6xl">💖</span>
-          </div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Quieres ser mi San Valentín?</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: pink;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        button {
+            font-size: 20px;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+        }
+        #yes {
+            background-color: red;
+            color: white;
+        }
+        #no {
+            background-color: gray;
+            color: white;
+            position: absolute;
+        }
+        .hidden {
+            display: none;
+        }
+        .celebration {
+            font-size: 24px;
+            color: red;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .cat {
+            width: 100px;
+            position: absolute;
+            animation: bounce 1s infinite alternate;
+        }
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-20px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>¿Quieres ser mi San Valentín? 💖</h1>
+        <div class="buttons">
+            <button id="yes" onclick="celebrate()">Sí</button>
+            <button id="no" onmouseover="moveButton()">No</button>
         </div>
-      )}
+        <div id="message" class="hidden">
+            <p class="celebration">¡Sabía que dirías que sí! 🎉💕 Eres la mejor persona del mundo y haré todo lo posible por hacerte feliz. 🌹🐱</p>
+            <img src="https://placekitten.com/150/150" class="cat">
+        </div>
     </div>
-  );
-}
+
+    <script>
+        function celebrate() {
+            document.getElementById("message").classList.remove("hidden");
+            document.querySelector(".buttons").style.display = "none";
+            addDecorations();
+        }
+
+        function moveButton() {
+            let button = document.getElementById("no");
+            let x = Math.random() * (window.innerWidth - 100);
+            let y = Math.random() * (window.innerHeight - 50);
+            button.style.left = `${x}px`;
+            button.style.top = `${y}px`;
+        }
+
+        function addDecorations() {
+            for (let i = 0; i < 5; i++) {
+                let cat = document.createElement("img");
+                cat.src = "https://placekitten.com/100/100";
+                cat.className = "cat";
+                cat.style.left = `${Math.random() * window.innerWidth}px`;
+                cat.style.top = `${Math.random() * window.innerHeight}px`;
+                document.body.appendChild(cat);
+            }
+        }
+    </script>
+</body>
+</html>
